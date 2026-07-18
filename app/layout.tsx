@@ -4,7 +4,7 @@ import './globals.css'
 
 export const metadata: Metadata = {
   title: 'Academy Pro - Student Management System',
-  description: 'Premium student management platform with advanced analytics and course management',
+  description: 'student management platform with advanced analytics and course management',
   generator: 'v0.app',
   icons: {
     icon: [

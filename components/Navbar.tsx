@@ -1,10 +1,24 @@
 'use client';
 
-import { Search, Bell, Settings, User, ChevronDown } from 'lucide-react';
+import { Search, Bell, Settings, User, ChevronDown, LogOut } from 'lucide-react';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function Navbar() {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const router = useRouter();
+
+  const handleLogout = () => {
+    // ১. আপনার অথ টোকেন বা ইউজার ডাটা রিমুভ করুন
+    localStorage.removeItem('token'); 
+    
+    // ২. ড্রপডাউন মেনু বন্ধ করুন
+    setIsProfileOpen(false);
+
+    // ৩. পুরো পেজ রিলোড করুন যাতে অ্যাপটি আবার নতুন করে 
+    // page.tsx এর লগইন চেক লজিক রান করতে পারে
+    window.location.href = '/'; 
+  };
 
   return (
     <nav className="fixed top-0 left-0 right-0 md:left-64 h-16 glass-panel border-b border-white/10 z-30">
@@ -21,18 +35,15 @@ export default function Navbar() {
 
         {/* Right section */}
         <div className="flex items-center gap-2 md:gap-4 ml-auto pt-16 md:pt-0">
-          {/* Notification bell */}
           <button className="navbar-icon-btn relative">
             <Bell className="w-5 h-5" />
             <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full" />
           </button>
 
-          {/* Settings */}
           <button className="navbar-icon-btn">
             <Settings className="w-5 h-5" />
           </button>
 
-          {/* Divider */}
           <div className="hidden sm:block w-px h-6 bg-white/10" />
 
           {/* Profile dropdown */}
@@ -49,7 +60,7 @@ export default function Navbar() {
 
             {/* Dropdown menu */}
             {isProfileOpen && (
-              <div className="absolute right-0 mt-2 w-48 glass-card rounded-xl overflow-hidden shadow-xl">
+              <div className="absolute right-0 mt-2 w-48 glass-card rounded-xl overflow-hidden shadow-xl border border-white/10">
                 <div className="p-4 border-b border-white/10">
                   <p className="text-sm font-semibold text-white">Admin User</p>
                   <p className="text-xs text-slate-400">admin@academy.com</p>
@@ -63,8 +74,14 @@ export default function Navbar() {
                     <Settings className="w-4 h-4" />
                     <span className="text-sm">Settings</span>
                   </button>
+                  
                   <div className="border-t border-white/10 my-2" />
-                  <button className="w-full flex items-center gap-3 px-4 py-2 text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-lg transition-all">
+                  
+                  <button 
+                    onClick={handleLogout}
+                    className="w-full flex items-center gap-3 px-4 py-2 text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-lg transition-all"
+                  >
+                    <LogOut className="w-4 h-4" />
                     <span className="text-sm">Logout</span>
                   </button>
                 </div>
